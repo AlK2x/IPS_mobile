@@ -1,5 +1,16 @@
-# Created by https://www.gitignore.io/api/kotlin,androidstudio
-# Edit at https://www.gitignore.io/?templates=kotlin,androidstudio
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
 
 ### AndroidStudio ###
 # Covers files to be ignored for android development using Android Studio.

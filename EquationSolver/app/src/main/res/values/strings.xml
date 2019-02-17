@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Equation Solver</string>
+    <string name="d" translatable="false">D:</string>
+    <string name="x1" translatable="false">X1:</string>
+    <string name="x2" translatable="false">X2:</string>
+    <string name="a" translatable="false">A</string>
+    <string name="b" translatable="false">B</string>
+    <string name="c" translatable="false">C</string>
+    <string name="a_x_2_b_x_c_0" translatable="false">A*x^2+b*x+c=0</string>
+    <string name="missed_parameter_error">Please, enter a factor</string>
+    <string name="wrong_first_parameter">The first parameter can\'t be zero</string>
+    <string name="solve">Solve</string>
+</resources>

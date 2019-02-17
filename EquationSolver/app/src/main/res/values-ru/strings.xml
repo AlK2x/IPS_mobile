@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Решение квадратичных уравнений</string>
+    <string name="wrong_first_parameter">Первый параметро не может быть 0</string>
+    <string name="solve">Решить</string>
+    <string name="missed_parameter_error">Введите значение для</string>
+</resources>
