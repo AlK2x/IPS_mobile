@@ -23,11 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val locale = Locale("ru")
-        val config = baseContext.resources.configuration
-        config.locale = locale
-        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
-
         setContentView(R.layout.activity_main)
 
         this.discriminantField = findViewById(R.id.discriminant_text)
