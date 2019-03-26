@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
+import kotlinx.android.synthetic.main.main_screen.*
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -27,8 +25,7 @@ class MainScreenActivity : AppCompatActivity() {
 
     fun onNextScreenClick(view: View) {
         val intent = Intent(this@MainScreenActivity, NextScreenActivity::class.java)
-        val textView = findViewById<EditText>(R.id.nextInput)
-        intent.putExtra(MainScreenActivity.EXTRA_ADDITIONAL_DATA, textView?.text.toString())
+        intent.putExtra(MainScreenActivity.EXTRA_ADDITIONAL_DATA, nextInput?.text.toString())
         startActivity(intent)
     }
 
@@ -36,8 +33,7 @@ class MainScreenActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             val result = data?.getStringExtra(ResultScreenActivity.EXTRA_ADDITIONAL_DATA)
-            val view = findViewById<TextView>(R.id.resultText)
-            view?.text = result
+            resultText?.text = result
         }
     }
 }

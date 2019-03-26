@@ -6,7 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
+import kotlinx.android.synthetic.main.result_screen.*
 
 class ResultScreenActivity : AppCompatActivity() {
 
@@ -26,8 +26,7 @@ class ResultScreenActivity : AppCompatActivity() {
     }
 
     fun onReturnResultToMain(view: View) {
-        val textField = findViewById<EditText>(R.id.resultInput)
-        val result = textField?.text.toString()
+        val result = resultInput?.text.toString()
         setResult(Activity.RESULT_OK, createIntent(this, result))
         this.finish()
     }
