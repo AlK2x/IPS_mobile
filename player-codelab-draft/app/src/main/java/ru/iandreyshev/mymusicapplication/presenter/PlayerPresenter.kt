@@ -1,17 +1,17 @@
 package ru.iandreyshev.mymusicapplication.presenter
 
+import android.content.res.Resources
 import ru.iandreyshev.model.player.IPlayerPresenter
+import ru.iandreyshev.model.player.Player
 import ru.iandreyshev.model.player.PlayingState
 import ru.iandreyshev.model.player.Timeline
+import ru.iandreyshev.mymusicapplication.R
 
-interface IView {
-    fun updateTitle(title: String)
-    fun updateTimeline(progress: Float, currentTime: String)
-    fun updatePlaying(state: PlayingState)
-}
+
 
 class PlayerPresenter(
-    private val resources: Resources
+    private val resources: Resources,
+    private val player: Player
 ) : IPlayerPresenter {
 
     private var mTitle: String = ""
@@ -23,6 +23,12 @@ class PlayerPresenter(
     fun onStop() = player.onStop()
     fun onRestart() = player.onRestart()
     fun onChangeTimePosition(timePercent: Float) = player.onChangeTimelinePosition(timePercent)
+
+    interface IView {
+        fun updateTitle(title: String)
+        fun updateTimeline(progress: Float, currentTime: String)
+        fun updatePlaying(state: PlayingState)
+    }
 
     fun onAttach(view: IView) {
         mViewMap[view] = true

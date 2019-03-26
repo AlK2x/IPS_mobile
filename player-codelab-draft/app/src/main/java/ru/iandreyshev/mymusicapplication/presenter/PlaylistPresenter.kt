@@ -3,14 +3,16 @@ package ru.iandreyshev.mymusicapplication.presenter
 import ru.iandreyshev.model.playlist.IPlaylistPresenter
 import ru.iandreyshev.model.playlist.ITrack
 
-interface IView {
-    fun updatePlaylist(playlist: List<ITrack>)
-}
+
 
 class PlaylistPresenter : IPlaylistPresenter {
 
     private var mPlaylist = listOf<ITrack>()
     private val mViewMap = mutableMapOf<IView, Boolean>()
+
+    interface IView {
+        fun updatePlaylist(playlist: List<ITrack>)
+    }
 
     fun onAttach(view: IView) {
         mViewMap[view] = true

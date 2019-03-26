@@ -4,8 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_playlist.*
+import kotlinx.android.synthetic.main.item_track.view.*
 import ru.iandreyshev.model.player.PlayingState
+import ru.iandreyshev.model.playlist.ITrack
 import ru.iandreyshev.mymusicapplication.R
+import ru.iandreyshev.mymusicapplication.application.MusicApplication
+import ru.iandreyshev.mymusicapplication.presenter.PlayerPresenter
+import ru.iandreyshev.mymusicapplication.presenter.PlaylistPresenter
 import ru.iandreyshev.utils.disable
 import ru.iandreyshev.utils.enable
 
@@ -40,7 +45,8 @@ class PlaylistActivity : AppCompatActivity(), PlaylistPresenter.IView, PlayerPre
     override fun updateTitle(title: String) =
         updateTitleView(title)
 
-    override fun updateTimeline(progress: Float, currentTime: String) = Unit
+    override fun updateTimeline(progress: Float, currentTime: String) =
+        mPlayerPresenter.onChangeTimePosition(progress)
 
     override fun onResume() {
         super.onResume()
@@ -66,7 +72,6 @@ class PlaylistActivity : AppCompatActivity(), PlaylistPresenter.IView, PlayerPre
     private fun initIntroView() {
         btnPlay.setBackgroundResource(R.drawable.icon_play)
         btnPlay.setOnClickListener {
-            mPlaylistPresenter.updatePlaying(PlayingState.Playing)
             mPlayerPresenter.updatePlaying(PlayingState.Playing)
         }
 

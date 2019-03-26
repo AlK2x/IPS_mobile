@@ -7,6 +7,8 @@ import kotlinx.android.synthetic.main.activity_player.*
 import ru.iandreyshev.model.player.PlayingState
 import ru.iandreyshev.model.player.Timeline
 import ru.iandreyshev.mymusicapplication.R
+import ru.iandreyshev.mymusicapplication.application.MusicApplication
+import ru.iandreyshev.mymusicapplication.presenter.PlayerPresenter
 import ru.iandreyshev.utils.disable
 import ru.iandreyshev.utils.enable
 
@@ -60,16 +62,15 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter.IView {
         btnPlay.setOnClickListener {
             mPlayerPresenter.onPlay()
             updatePlayingButtons(PlayingState.Paused)
-            //// TODO: Добавить перенаправление события в презентер
         }
 
         btnRestart.setBackgroundResource(R.drawable.icon_restart)
         btnRestart.setOnClickListener {
             mPlayerPresenter.updateTimeline(Timeline(0, 0f))
-            updateTimelineView(0f, '')
+            updateTimelineView(0f, "")
             mPlayerPresenter.updatePlaying(PlayingState.Playing)
             updatePlayingButtons(PlayingState.Playing)
-            //// TODO: Добавить перенаправление события в презентер
+
         }
     }
 
@@ -78,11 +79,16 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter.IView {
         sbTimeLine.max = TIMELINE_MAX
         sbTimeLine.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // TODO: Добавить перенаправление события в презентер
+                mPlayerPresenter.onStop()
             }
 
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val p: Float = seekBar?.progress?.toFloat() ?: progress.toFloat()
+                mPlayerPresenter.onChangeTimePosition(p)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                mPlayerPresenter.onRestart()
+            }
         })
     }
 
