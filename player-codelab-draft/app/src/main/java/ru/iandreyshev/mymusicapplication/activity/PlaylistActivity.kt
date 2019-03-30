@@ -26,10 +26,27 @@ class PlaylistActivity : AppCompatActivity(), PlaylistPresenter.IView, PlayerPre
         initIntroView()
     }
 
-    override fun updatePlaying(state: PlayingState) =
-        updatePlayingButtons(state)
+    override fun onResume() {
+        super.onResume()
+        mPlaylistPresenter.onAttach(this)
+        mPlayerPresenter.onAttach(this)
+    }
 
-    override fun updatePlaylist(playlist: List<ITrack>) {
+    override fun onPause() {
+        super.onPause()
+        mPlaylistPresenter.onDetach(this)
+        mPlayerPresenter.onDetach(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing) {
+            mPlaylistPresenter.onFinish(this)
+            mPlayerPresenter.onFinish(this)
+        }
+    }
+
+    override fun updatePlalist(playlist: List<ITrack>) {
         tracksList.removeAllViews()
 
         playlist.forEach { track ->
@@ -45,34 +62,15 @@ class PlaylistActivity : AppCompatActivity(), PlaylistPresenter.IView, PlayerPre
     override fun updateTitle(title: String) =
         updateTitleView(title)
 
-    override fun updateTimeline(progress: Float, currentTime: String) =
-        mPlayerPresenter.onChangeTimePosition(progress)
+    override fun updateTimeline(progress: Float, currentTime: String) = Unit
 
-    override fun onResume() {
-        super.onResume()
-        mPlaylistPresenter.onAttach(this)
-        mPlayerPresenter.onAttach(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mPlaylistPresenter.onDetach(this)
-        mPlayerPresenter.onDetach(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        if (isFinishing) {
-            mPlaylistPresenter.onFinish(this)
-            mPlayerPresenter.onFinish(this)
-        }
-    }
+    override fun updatePlaying(state: PlayingState) =
+        updatePlayingButtons(state)
 
     private fun initIntroView() {
         btnPlay.setBackgroundResource(R.drawable.icon_play)
         btnPlay.setOnClickListener {
-            mPlayerPresenter.updatePlaying(PlayingState.Playing)
+            mPlayerPresenter.onStop()
         }
 
         introClickableBackground.setOnClickListener {

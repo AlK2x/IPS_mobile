@@ -19,7 +19,7 @@ class MusicApplication : Application() {
         instance = this
 
         mPlayerPresenter = PlayerPresenter(instance.resources, instance.mPlayer)
-        instance.mPlayer.subscribe(instance.mPlayerPresenter)
+        instance.mPlayer.subscribe(mPlayerPresenter)
     }
 
     private fun onSelectSong(songId: Long) {
@@ -32,13 +32,14 @@ class MusicApplication : Application() {
         private lateinit var instance: MusicApplication
 
         fun getPlaylistPresenter(): PlaylistPresenter {
-            val presenter = PlaylistPresenter()
-            instance.mPlaylist.subscribe(presenter)
-            return presenter
+            val playlistPresenter = PlaylistPresenter()
+            instance.mPlaylist.subscribe(playlistPresenter)
+            return playlistPresenter
         }
 
         fun getPlayerPresenter(): PlayerPresenter {
             return instance.mPlayerPresenter
         }
     }
+
 }

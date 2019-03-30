@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_player.*
 import ru.iandreyshev.model.player.PlayingState
-import ru.iandreyshev.model.player.Timeline
 import ru.iandreyshev.mymusicapplication.R
 import ru.iandreyshev.mymusicapplication.application.MusicApplication
 import ru.iandreyshev.mymusicapplication.presenter.PlayerPresenter
@@ -24,6 +23,15 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter.IView {
         initTimeline()
     }
 
+    override fun updateTitle(title: String) =
+        updateTitleView(title)
+
+    override fun updateTimeline(progress: Float, currentTime: String)  =
+        updateTimelineView(progress, currentTime)
+
+    override fun updatePlaying(state: PlayingState) =
+        updatePlayingButtons(state)
+
     override fun onResume() {
         super.onResume()
         mPlayerPresenter.onAttach(this)
@@ -36,41 +44,25 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter.IView {
 
     override fun onDestroy() {
         super.onDestroy()
-
         if (isFinishing) {
             mPlayerPresenter.onFinish(this)
         }
     }
 
-    override fun updateTitle(title: String) =
-        updateTitleView(title)
-
-    override fun updateTimeline(progress: Float, currentTime: String) =
-        updateTimelineView(progress, currentTime)
-
-    override fun updatePlaying(state: PlayingState) =
-        updatePlayingButtons(state)
-
     private fun initButtons() {
         btnStop.setBackgroundResource(R.drawable.icon_stop)
         btnStop.setOnClickListener {
             mPlayerPresenter.onStop()
-            updatePlayingButtons(PlayingState.Paused)
         }
 
         btnPlay.setBackgroundResource(R.drawable.icon_play)
         btnPlay.setOnClickListener {
             mPlayerPresenter.onPlay()
-            updatePlayingButtons(PlayingState.Paused)
         }
 
         btnRestart.setBackgroundResource(R.drawable.icon_restart)
         btnRestart.setOnClickListener {
-            mPlayerPresenter.updateTimeline(Timeline(0, 0f))
-            updateTimelineView(0f, "")
-            mPlayerPresenter.updatePlaying(PlayingState.Playing)
-            updatePlayingButtons(PlayingState.Playing)
-
+            mPlayerPresenter.onRestart()
         }
     }
 
@@ -79,16 +71,15 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter.IView {
         sbTimeLine.max = TIMELINE_MAX
         sbTimeLine.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                mPlayerPresenter.onStop()
+                var progress = 0f
+                if (seekBar != null) {
+                    progress = seekBar.progress / 100f
+                }
+                mPlayerPresenter.onChangeTimelinePosition(progress)
             }
 
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val p: Float = seekBar?.progress?.toFloat() ?: progress.toFloat()
-                mPlayerPresenter.onChangeTimePosition(p)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                mPlayerPresenter.onRestart()
-            }
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
+            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
         })
     }
 
