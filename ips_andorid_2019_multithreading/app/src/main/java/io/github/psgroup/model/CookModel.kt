@@ -41,7 +41,7 @@ class CookModel {
         const val MIN_PROGRESS = 0
         const val MAX_PROGRESS = 100
 
-        private const val PROGRESS_STEP = 20
+        const val PROGRESS_STEP = 2
         private val AVAILABLE_PIZZA = arrayOf(
                 "margarita",
                 "venezia",

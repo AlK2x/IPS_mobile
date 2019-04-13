@@ -18,7 +18,7 @@ class PlayerActivity : AppCompatActivity(), PlayerPresenter.IView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-
+x
         initButtons()
         initTimeline()
     }

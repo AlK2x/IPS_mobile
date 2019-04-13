@@ -3,13 +3,20 @@ package ru.iandreyshev.moxyapp.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
 import kotlinx.android.synthetic.main.activity_player.*
 import ru.iandreyshev.model.player.PlayingState
 import ru.iandreyshev.moxyapp.R
+import ru.iandreyshev.moxyapp.presenter.PlayerPresenter
 import ru.iandreyshev.utils.disable
 import ru.iandreyshev.utils.enable
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerActivity : MvpAppCompatActivity() {
+
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var mPlayerPresenter: PlayerPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
