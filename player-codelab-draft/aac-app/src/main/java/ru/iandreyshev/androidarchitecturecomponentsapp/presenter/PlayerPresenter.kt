@@ -1,18 +1,14 @@
 package ru.iandreyshev.androidarchitecturecomponentsapp.presenter
 
-import ru.iandreyshev.model.player.IPlayerPresenter
-import ru.iandreyshev.model.player.PlayingState
-import ru.iandreyshev.model.player.Timeline
+import ru.iandreyshev.model.player.Player
 
-class PlayerPresenter : IPlayerPresenter {
+class PlayerPresenter(private val player: Player) {
 
-    override fun updateTitle(title: String?) {
-    }
+    fun onPlay() = player.onPlay()
 
-    override fun updateTimeline(timeline: Timeline) {
-    }
+    fun onStop() = player.onStop()
 
-    override fun updatePlaying(state: PlayingState) {
-    }
+    fun onRestart() = player.onRestart()
 
+    fun onChangeTimelinePosition(timePercent: Float) = player.onChangeTimelinePosition(timePercent)
 }

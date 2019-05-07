@@ -1,19 +1,42 @@
 package ru.iandreyshev.androidarchitecturecomponentsapp.activity
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_player.*
 import ru.iandreyshev.androidarchitecturecomponentsapp.R
+import ru.iandreyshev.androidarchitecturecomponentsapp.viewModel.PlayerViewModel
 import ru.iandreyshev.model.player.PlayingState
+import ru.iandreyshev.androidarchitecturecomponentsapp.application.MusicApplication
+import ru.iandreyshev.androidarchitecturecomponentsapp.presenter.PlayerPresenter
 import ru.iandreyshev.utils.disable
 import ru.iandreyshev.utils.enable
 
 class PlayerActivity : AppCompatActivity() {
 
+    private lateinit var mPlayerPresenter: PlayerPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+
+        val mViewModel = ViewModelProviders.of(this).get(PlayerViewModel::class.java)
+        mPlayerPresenter = MusicApplication.getPlayerPresenter(mViewModel)
+        mViewModel.trackTitle.observe(this, Observer { newTitle ->
+            updateTitleView(newTitle.orEmpty())
+        })
+        mViewModel.trackTimeline.observe(this, Observer { timeline ->
+            if (timeline != null) {
+                updateTimelineView(timeline.percent, timeline.timeInMillis.toString())
+            }
+        })
+        mViewModel.trackPlayingState.observe(this, Observer { state ->
+            if (state != null) {
+                updatePlayingButtons(state)
+            }
+        })
 
         initButtons()
         initTimeline()
@@ -22,17 +45,17 @@ class PlayerActivity : AppCompatActivity() {
     private fun initButtons() {
         btnStop.setBackgroundResource(R.drawable.icon_stop)
         btnStop.setOnClickListener {
-            // TODO: Добавить перенаправление события в презентер
+            mPlayerPresenter.onStop()
         }
 
         btnPlay.setBackgroundResource(R.drawable.icon_play)
         btnPlay.setOnClickListener {
-            // TODO: Добавить перенаправление события в презентер
+            mPlayerPresenter.onPlay()
         }
 
         btnRestart.setBackgroundResource(R.drawable.icon_restart)
         btnRestart.setOnClickListener {
-            // TODO: Добавить перенаправление события в презентер
+            mPlayerPresenter.onRestart()
         }
     }
 
@@ -41,7 +64,11 @@ class PlayerActivity : AppCompatActivity() {
         sbTimeLine.max = TIMELINE_MAX
         sbTimeLine.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // TODO: Добавить перенаправление события в презентер
+                var progress = 0f
+                if (seekBar != null) {
+                    progress = seekBar.progress / 100f
+                }
+                mPlayerPresenter.onChangeTimelinePosition(progress)
             }
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
