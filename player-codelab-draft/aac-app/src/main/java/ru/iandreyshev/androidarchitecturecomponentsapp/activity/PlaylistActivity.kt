@@ -12,13 +12,11 @@ import ru.iandreyshev.androidarchitecturecomponentsapp.viewModel.PlaylistViewMod
 import ru.iandreyshev.model.player.PlayingState
 import ru.iandreyshev.androidarchitecturecomponentsapp.application.MusicApplication
 import ru.iandreyshev.androidarchitecturecomponentsapp.presenter.PlayerPresenter
-import ru.iandreyshev.androidarchitecturecomponentsapp.presenter.PlaylistPresenter
 import ru.iandreyshev.utils.disable
 import ru.iandreyshev.utils.enable
 
 class PlaylistActivity : AppCompatActivity() {
 
-    private lateinit var mPlaylistPresenter: PlaylistPresenter
     private lateinit var mPlayerPresenter: PlayerPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +24,7 @@ class PlaylistActivity : AppCompatActivity() {
         setContentView(R.layout.activity_playlist)
 
         val mViewModel = ViewModelProviders.of(this).get(PlaylistViewModel::class.java)
-        mPlaylistPresenter = MusicApplication.getPlaylistPresenter(mViewModel)
+        MusicApplication.subscribeToPlaylistChange(mViewModel)
         mPlayerPresenter = MusicApplication.getPlayerPresenter(mViewModel)
         mViewModel.trackTitle.observe(this, Observer { newTitle ->
             updateTitleView(newTitle.orEmpty())

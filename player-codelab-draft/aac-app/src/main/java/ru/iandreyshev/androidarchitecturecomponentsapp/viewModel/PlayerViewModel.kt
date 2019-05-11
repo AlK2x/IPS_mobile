@@ -11,6 +11,7 @@ class PlayerViewModel : ViewModel(), IPlayerPresenter {
     val trackTitle = MutableLiveData<String>()
     val trackTimeline = MutableLiveData<Timeline>()
     val trackPlayingState = MutableLiveData<PlayingState>()
+    val trackImageUrl = MutableLiveData<String>()
 
     override fun updateTitle(title: String?) {
         trackTitle.value = title
@@ -22,5 +23,9 @@ class PlayerViewModel : ViewModel(), IPlayerPresenter {
 
     override fun updatePlaying(state: PlayingState) {
         trackPlayingState.value = state
+    }
+
+    override fun updateImage(url: String) {
+        trackImageUrl.value = url
     }
 }

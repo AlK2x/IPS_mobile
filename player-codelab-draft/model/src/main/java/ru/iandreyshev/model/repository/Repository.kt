@@ -9,6 +9,11 @@ class Repository : IRepository {
             Song(1, "Bomfunk Mc's - Freestyler", R.raw.freestyler)
     )
 
+    private val mImages: Map<Long, String> = mapOf(
+        0L to "https://images.g2a.com/newlayout/323x433/1x1x0/49d265303aa4/5912a1e2ae653a2fb1529963",
+        1L to "https://upload.wikimedia.org/wikipedia/ru/thumb/8/8f/Freestyler.jpg/270px-Freestyler.jpg"
+    )
+
     override fun getAllSongs(): List<ISong> {
         return mSongs
     }
@@ -17,4 +22,7 @@ class Repository : IRepository {
         return mSongs.first { song -> song.id == id }
     }
 
+    override fun getPictureUrl(id: Long): String? {
+        return mImages[id]
+    }
 }

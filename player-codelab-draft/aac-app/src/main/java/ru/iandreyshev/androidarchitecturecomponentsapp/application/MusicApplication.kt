@@ -25,6 +25,8 @@ class MusicApplication : Application() {
 
     private fun onSelectSong(songId: Long) {
         val songToPlay = mRepository.getSongById(songId) ?: return
+        val imageUrl = mRepository.getPictureUrl(songId) ?: ""
+        mPlayerPresenter.imageUrl = imageUrl
         mPlayer.setSong(songToPlay)
         mPlayer.onPlay()
     }
@@ -32,14 +34,16 @@ class MusicApplication : Application() {
     companion object {
         private lateinit var instance: MusicApplication
 
-        fun getPlaylistPresenter(viewModel: IPlaylistPresenter): PlaylistPresenter {
-            val playlistPresenter = PlaylistPresenter()
+        fun subscribeToPlaylistChange(viewModel: IPlaylistPresenter) {
             instance.mPlaylist.subscribe(viewModel)
-            return playlistPresenter
         }
 
         fun getPlayerPresenter(viewModel: IPlayerPresenter): PlayerPresenter {
             instance.mPlayer.subscribe(viewModel)
+            val url = instance.mPlayerPresenter.imageUrl
+            if (url != null) {
+                viewModel.updateImage(url)
+            }
             return instance.mPlayerPresenter
         }
     }

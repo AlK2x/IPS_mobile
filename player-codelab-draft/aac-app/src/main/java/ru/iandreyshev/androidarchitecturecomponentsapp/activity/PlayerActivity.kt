@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_player.*
 import ru.iandreyshev.androidarchitecturecomponentsapp.R
 import ru.iandreyshev.androidarchitecturecomponentsapp.viewModel.PlayerViewModel
@@ -35,6 +36,11 @@ class PlayerActivity : AppCompatActivity() {
         mViewModel.trackPlayingState.observe(this, Observer { state ->
             if (state != null) {
                 updatePlayingButtons(state)
+            }
+        })
+        mViewModel.trackImageUrl.observe(this, Observer { url ->
+            if (url != null) {
+                Picasso.get().load(url).fit().centerInside().into(imgPoster)
             }
         })
 

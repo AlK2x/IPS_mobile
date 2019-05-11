@@ -30,4 +30,6 @@ class PlaylistViewModel : ViewModel(), IPlaylistPresenter, IPlayerPresenter {
     override fun updatePlaylist(playlist: List<ITrack>) {
         this.playlist.value = playlist
     }
+
+    override fun updateImage(url: String) = Unit
 }
