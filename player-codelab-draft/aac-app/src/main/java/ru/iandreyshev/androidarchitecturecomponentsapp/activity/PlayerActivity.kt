@@ -14,6 +14,7 @@ import ru.iandreyshev.androidarchitecturecomponentsapp.application.MusicApplicat
 import ru.iandreyshev.androidarchitecturecomponentsapp.presenter.PlayerPresenter
 import ru.iandreyshev.utils.disable
 import ru.iandreyshev.utils.enable
+import java.util.concurrent.TimeUnit
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -30,7 +31,14 @@ class PlayerActivity : AppCompatActivity() {
         })
         mViewModel.trackTimeline.observe(this, Observer { timeline ->
             if (timeline != null) {
-                updateTimelineView(timeline.percent, timeline.timeInMillis.toString())
+                val ms = timeline.timeInMillis.toLong()
+
+                val time = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(ms),
+                    TimeUnit.MILLISECONDS.toMinutes(ms),
+                    TimeUnit.MILLISECONDS.toSeconds(ms)
+                    )
+
+                updateTimelineView(timeline.percent, time)
             }
         })
         mViewModel.trackPlayingState.observe(this, Observer { state ->
