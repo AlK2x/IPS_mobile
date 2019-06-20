@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TrendingReposRepository @Inject constructor(val dataSource: TrendingReposDataSource) {
+class GitStarsRepository @Inject constructor(val dataSource: GitStarsDataSource) {
 
     companion object {
         const val LIMIT = 10

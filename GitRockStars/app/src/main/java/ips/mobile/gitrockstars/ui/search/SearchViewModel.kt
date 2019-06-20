@@ -2,11 +2,11 @@ package ips.mobile.gitrockstars.ui.search
 
 import androidx.lifecycle.*
 import ips.mobile.gitrockstars.data.QueryRepository
-import ips.mobile.gitrockstars.data.TrendingReposRepository
+import ips.mobile.gitrockstars.data.GitStarsRepository
 import ips.mobile.gitrockstars.model.User
 
 class SearchViewModel constructor(
-    private val trendingReposRepository: TrendingReposRepository,
+    private val gitStarsRepository: GitStarsRepository,
     private val queryRepository: QueryRepository
 ) : ViewModel() {
 
@@ -20,20 +20,20 @@ class SearchViewModel constructor(
     val query: LiveData<String>
         get() = _query
 
-    private val _repos = MutableLiveData<List<UserSearchItemViewModel>>()
-    val repos: LiveData<List<UserSearchItemViewModel>> = Transformations
+    private val _users = MutableLiveData<List<UserSearchItemViewModel>>()
+    val users: LiveData<List<UserSearchItemViewModel>> = Transformations
         .switchMap(_query) { query ->
             fetch(query, page)
         }
 
-    init {
+/*    init {
         setQuery(queryRepository.find())
-    }
+    }*/
 
     fun setQuery(query: String) {
         page = 1
         queryRepository.save(query)
-        _repos.value = emptyList()
+        _users.value = emptyList()
         _query.value = query
     }
 
@@ -49,13 +49,13 @@ class SearchViewModel constructor(
 
     private fun fetch(query: String, page: Int): LiveData<List<UserSearchItemViewModel>> {
         _progress.value = true
-        return trendingReposRepository
+        return gitStarsRepository
             .find(query, page)
             .map { result ->
-                val current = _repos.value ?: emptyList()
+                val current = _users.value ?: emptyList()
                 val latest = toItems(result.items)
                 val newValue = combine(current, latest)
-                _repos.value = newValue
+                _users.value = newValue
                 _progress.value = false
                 newValue
             }

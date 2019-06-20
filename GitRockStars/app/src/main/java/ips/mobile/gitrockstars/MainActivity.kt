@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private fun initToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_home_black_24dp)
     }
 
     fun addFragment(tag: String, fragment: Fragment) {

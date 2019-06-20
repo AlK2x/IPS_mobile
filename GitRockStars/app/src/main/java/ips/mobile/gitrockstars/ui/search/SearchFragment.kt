@@ -90,7 +90,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel.repos.observe(viewLifecycleOwner, Observer { items ->
+        viewModel.users.observe(viewLifecycleOwner, Observer { items ->
             items?.let {
                 adapter.submitList(it)
             }

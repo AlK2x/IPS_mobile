@@ -3,7 +3,7 @@ package ips.mobile.gitrockstars.ui.search
 import androidx.databinding.ObservableField
 import ips.mobile.gitrockstars.model.User
 
-class UserSearchItemViewModel(val repo: User) {
+class UserSearchItemViewModel(val user: User) {
 
     val title: ObservableField<String> = ObservableField()
     val description: ObservableField<String> = ObservableField()
@@ -13,12 +13,12 @@ class UserSearchItemViewModel(val repo: User) {
     val stars: ObservableField<String> = ObservableField()
 
     init {
-        title.set(repo.name)
-        description.set(repo.description)
-        avatar.set(repo.owner.avatar_url)
-        language.set(repo.language)
-        url.set(repo.url)
-        stars.set(repo.starts.toString())
+        title.set(user.name)
+        description.set(user.description)
+        avatar.set(user.owner.avatar_url)
+        language.set(user.language)
+        url.set(user.owner.url)
+        stars.set(user.starts.toString())
     }
 
 }

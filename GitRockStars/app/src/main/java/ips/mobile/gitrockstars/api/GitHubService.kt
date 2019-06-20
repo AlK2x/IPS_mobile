@@ -9,14 +9,8 @@ import retrofit2.http.Query
 
 interface GitHubService {
 
-    @GET("orgs/{query}/repos")
-    fun getRepos(
-        @Path("query") organization: String,
-        @Query("page") page: Int,
-        @Query("per_page") limit: Int): Single<List<User>>
-
     @GET("search/repositories")
-    fun getTrending(
+    fun getRockStars(
         @Query("q") qualifiers: String,
         @Query("sort") sort: String,
         @Query("order") order: String,
