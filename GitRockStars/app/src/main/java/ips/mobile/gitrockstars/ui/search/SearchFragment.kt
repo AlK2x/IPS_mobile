@@ -3,6 +3,7 @@ package ips.mobile.gitrockstars.ui.search
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
@@ -97,6 +98,11 @@ class SearchFragment : Fragment() {
         })
         viewModel.query.observe(viewLifecycleOwner, Observer { query ->
             activity?.title = query
+        })
+        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            error?.let {
+                Toast.makeText(activity, "Too many requests. Try again later", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 

@@ -2,9 +2,7 @@ package ips.mobile.gitrockstars.api
 
 import io.reactivex.Single
 import ips.mobile.gitrockstars.model.SearchResult
-import ips.mobile.gitrockstars.model.User
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GitHubService {

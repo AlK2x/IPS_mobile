@@ -1,6 +1,7 @@
 package ips.mobile.gitrockstars.ui.search
 
 import androidx.lifecycle.*
+import io.reactivex.SingleSource
 import ips.mobile.gitrockstars.data.QueryRepository
 import ips.mobile.gitrockstars.data.GitStarsRepository
 import ips.mobile.gitrockstars.model.User
@@ -26,9 +27,9 @@ class SearchViewModel constructor(
             fetch(query, page)
         }
 
-/*    init {
-        setQuery(queryRepository.find())
-    }*/
+    private val _error = MutableLiveData<Boolean?>()
+    val error: LiveData<Boolean?>
+        get() = _error
 
     fun setQuery(query: String) {
         page = 1
@@ -58,6 +59,11 @@ class SearchViewModel constructor(
                 _users.value = newValue
                 _progress.value = false
                 newValue
+            }
+            .onErrorResumeNext{ it ->
+                _error.value = true
+                _progress.value = false
+                SingleSource { }
             }
             .toFlowable()
             .toLiveData()
